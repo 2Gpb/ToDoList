@@ -21,15 +21,18 @@ final class SearchTextField: UITextField {
         }
         
         enum RightView {
-            static let frame: CGRect = CGRect(x: 0, y: 0, width: 30, height: 20)
-            static let rightImage: UIImage? = UIImage(systemName: "microphone.fill")
-            static let voiceButtonFrame: CGRect = CGRect(x: 5, y: 0, width: 16, height: 20)
+            static let frame: CGRect = CGRect(x: 0, y: 0, width: 36, height: 30)
+            static let voiceButtonFrame: CGRect = CGRect(x: 3, y: 0, width: 30, height: 30)
+            static let rightImage: UIImage? = UIImage(
+                systemName: "microphone.fill",
+                withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .regular, scale: .default)
+            )
         }
         
         enum LeftView {
-            static let frame: CGRect = CGRect(x: 0, y: 0, width: 30, height: 16)
+            static let frame: CGRect = CGRect(x: 0, y: 0, width: 36, height: 16)
             static let leftImage: UIImage? = UIImage(systemName: "magnifyingglass")
-            static let imageOffset: CGRect = CGRect(x: 8, y: 0, width: 18, height: 16)
+            static let imageOffset: CGRect = CGRect(x: 9, y: 0, width: 18, height: 16)
         }
     }
     

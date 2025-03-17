@@ -24,6 +24,10 @@ final class TaskListViewController: UIViewController {
             static let topOffset: CGFloat = 12
             static let leftOffset: CGFloat = 20
         }
+        
+        enum Footer {
+            static let heightMultiplier: CGFloat = 0.1
+        }
     }
     
     // MARK: - Private fields
@@ -32,6 +36,7 @@ final class TaskListViewController: UIViewController {
     //MARK: - UI Components
     private let label: UILabel = UILabel()
     private let search: SearchTextField = SearchTextField()
+    private let footer: Footer = Footer()
     
     // MARK: - Lifecycle
     init(interactor: TaskListBusinessLogic) {
@@ -55,6 +60,7 @@ final class TaskListViewController: UIViewController {
         
         setUpTitle()
         setUpSearch()
+        setUpFooter()
     }
     
     private func setUpTitle() {
@@ -68,6 +74,8 @@ final class TaskListViewController: UIViewController {
     }
     
     private func setUpSearch() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(openSearch))
+        search.addGestureRecognizer(gestureRecognizer)
         search.voiceSearchAction = {
             print(1)
         }
@@ -75,5 +83,22 @@ final class TaskListViewController: UIViewController {
         view.addSubview(search)
         search.pinTop(to: label.bottomAnchor, Constant.Search.topOffset)
         search.pinHorizontal(to: view, Constant.Search.leftOffset)
+    }
+    
+    private func setUpFooter() {
+        footer.newTaskButtonAction = {
+            print(2)
+        }
+        
+        view.addSubview(footer)
+        footer.pinBottom(to: view)
+        footer.pinHorizontal(to: view)
+        footer.setHeight(view.frame.height * Constant.Footer.heightMultiplier)
+    }
+    
+    // MARK: Actions
+    @objc
+    private func openSearch() {
+        search.becomeFirstResponder()
     }
 }
