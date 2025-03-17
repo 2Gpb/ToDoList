@@ -55,9 +55,9 @@ final class SearchTextField: UITextField {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = ColorStyles.gray.color
-        textColor = ColorStyles.white.color
-        tintColor = ColorStyles.yellow.color
+        backgroundColor = ColorStyle.gray.color
+        textColor = ColorStyle.white.color
+        tintColor = ColorStyle.yellow.color
         layer.cornerRadius = Constant.TextField.radius
         font = TextStyle.bodyM.font
         leftView = setUpLeftViewForTextField()
@@ -67,7 +67,7 @@ final class SearchTextField: UITextField {
         attributedPlaceholder = NSAttributedString(
             string: Constant.TextField.placeholder,
             attributes: [
-                .foregroundColor: ColorStyles.lightGray.color,
+                .foregroundColor: ColorStyle.lightGray.color,
                 .font: TextStyle.bodyM.font
             ]
         )
@@ -79,7 +79,7 @@ final class SearchTextField: UITextField {
         let leftView: UIView = UIView(frame: Constant.LeftView.frame)
         let imageView = UIImageView()
         imageView.image = Constant.LeftView.leftImage
-        imageView.tintColor = ColorStyles.lightGray.color
+        imageView.tintColor = ColorStyle.lightGray.color
         imageView.frame = Constant.LeftView.imageOffset
         
         leftView.addSubview(imageView)
@@ -90,7 +90,7 @@ final class SearchTextField: UITextField {
         let rightView: UIView = UIView(frame: Constant.RightView.frame)
         voiceSearchTextFieldButton.frame = Constant.RightView.voiceButtonFrame
         voiceSearchTextFieldButton.setImage(Constant.RightView.rightImage, for: .normal)
-        voiceSearchTextFieldButton.tintColor = ColorStyles.lightGray.color
+        voiceSearchTextFieldButton.tintColor = ColorStyle.lightGray.color
         voiceSearchTextFieldButton.addTarget(
                 self,
                 action: #selector(voiceSearch),

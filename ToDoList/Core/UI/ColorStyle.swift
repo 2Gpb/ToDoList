@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum ColorStyles: String, CaseIterable {
+enum ColorStyle: String, CaseIterable {
     // MARK: - Base Colors
     case black = "040404"
     case white = "F4F4F4"
@@ -16,7 +16,7 @@ enum ColorStyles: String, CaseIterable {
     case yellow = "FED702"
 }
 
-extension ColorStyles {
+extension ColorStyle {
     var color: UIColor {
         UIColor(hex: self.rawValue)
     }

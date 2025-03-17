@@ -14,6 +14,10 @@ final class Footer: UIView {
             static let message = "init(coder:) has not been implemented"
         }
         
+        enum Separator {
+            static let height: CGFloat = 0.5
+        }
+        
         enum Title {
             static let defaultText = "0 Задач"
             static let topOffset: CGFloat = 20
@@ -33,6 +37,7 @@ final class Footer: UIView {
     // MARK: - UI Components
     private let title: UILabel = UILabel()
     private let newTaskButton: UIButton = UIButton(type: .system)
+    private let topBorder: UIView = UIView()
     
     // MARK: - Variables
     var newTaskButtonAction: (() -> Void)?
@@ -57,15 +62,25 @@ final class Footer: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = ColorStyles.gray.color
+        backgroundColor = ColorStyle.gray.color
         
+        setUpSeparator()
         setUpTitle()
         setUpNewTaskButton()
     }
     
+    private func setUpSeparator() {
+        topBorder.backgroundColor = ColorStyle.lightGray.color
+        
+        addSubview(topBorder)
+        topBorder.pinTop(to: self)
+        topBorder.pinHorizontal(to: self)
+        topBorder.setHeight(Constant.Separator.height)
+    }
+    
     private func setUpTitle() {
         title.text = Constant.Title.defaultText
-        title.textColor = ColorStyles.white.color
+        title.textColor = ColorStyle.white.color
         title.font = TextStyle.caption.font
         title.textAlignment = .center
         
@@ -76,7 +91,7 @@ final class Footer: UIView {
     
     private func setUpNewTaskButton() {
         newTaskButton.setImage(Constant.Button.image, for: .normal)
-        newTaskButton.tintColor = ColorStyles.yellow.color
+        newTaskButton.tintColor = ColorStyle.yellow.color
         newTaskButton.addTarget(self, action: #selector(newTaskButtonTapped), for: .touchUpInside)
         
         addSubview(newTaskButton)

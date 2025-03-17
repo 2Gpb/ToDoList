@@ -25,9 +25,9 @@ struct FontDescription {
 enum TextStyle {
     case titleLarge // 34pt, Bold
     case bodyM // 17pt, Medium
-    case bodyS // 16pt, Regular
-    case caption // 12pt, Regular
-    case tabSmall // 11pt, Regular
+    case bodyS // 16pt, Medium
+    case caption // 14pt, Regular
+    case tabSmall // 12pt, Regular
 }
 
 extension TextStyle {
@@ -36,13 +36,13 @@ extension TextStyle {
         case .titleLarge:
             return FontDescription(font: .bold, size: 34)
         case .bodyM:
-            return FontDescription(font: .regular, size: 17)
+            return FontDescription(font: .medium, size: 17)
         case .bodyS:
-            return FontDescription(font: .regular, size: 16)
+            return FontDescription(font: .medium, size: 16)
         case .caption:
-            return FontDescription(font: .regular, size: 12)
+            return FontDescription(font: .regular, size: 14)
         case .tabSmall:
-            return FontDescription(font: .regular, size: 11)
+            return FontDescription(font: .regular, size: 12)
         }
     }
 }

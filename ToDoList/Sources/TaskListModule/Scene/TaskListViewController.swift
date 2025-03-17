@@ -37,6 +37,7 @@ final class TaskListViewController: UIViewController {
     private let label: UILabel = UILabel()
     private let search: SearchTextField = SearchTextField()
     private let footer: Footer = Footer()
+    private let taskTable: UITableView = UITableView()
     
     // MARK: - Lifecycle
     init(interactor: TaskListBusinessLogic) {
@@ -56,17 +57,18 @@ final class TaskListViewController: UIViewController {
     
     // MARK: - SetUp
     private func setUp() {
-        view.backgroundColor = ColorStyles.black.color
+        view.backgroundColor = ColorStyle.black.color
         
         setUpTitle()
         setUpSearch()
         setUpFooter()
+        setUpTable()
     }
     
     private func setUpTitle() {
         label.text = Constant.Title.text
         label.font = TextStyle.titleLarge.font
-        label.textColor = ColorStyles.white.color
+        label.textColor = ColorStyle.white.color
         
         view.addSubview(label)
         label.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constant.Title.topOffset)
@@ -96,9 +98,45 @@ final class TaskListViewController: UIViewController {
         footer.setHeight(view.frame.height * Constant.Footer.heightMultiplier)
     }
     
+    private func setUpTable() {
+        taskTable.dataSource = self
+        taskTable.delegate = self
+        taskTable.backgroundColor = .clear
+        taskTable.separatorStyle = .none
+        taskTable.showsVerticalScrollIndicator = false
+        taskTable.rowHeight = UITableView.automaticDimension
+        taskTable.register(TaskListCell.self, forCellReuseIdentifier: TaskListCell.reuseId)
+        
+        view.addSubview(taskTable)
+        taskTable.pinTop(to: search.bottomAnchor, 16)
+        taskTable.pinHorizontal(to: view)
+        taskTable.pinBottom(to: footer.topAnchor)
+    }
+    
     // MARK: Actions
     @objc
     private func openSearch() {
         search.becomeFirstResponder()
     }
 }
+
+// MARK: - UITableViewDataSource
+extension TaskListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        7
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TaskListCell.reuseId,
+            for: indexPath
+        ) as? TaskListCell else {
+            return UITableViewCell()
+        }
+        
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension TaskListViewController: UITableViewDelegate { }
