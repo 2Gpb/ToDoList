@@ -30,20 +30,22 @@ final class TaskListCell: UITableViewCell {
             
             static let blankImage: UIImage? = UIImage(
                 systemName: "circle",
-                withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .light, scale: .default))
+                withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .light, scale: .default)
+            )
         }
         
         enum Title {
-            static let topOffset: CGFloat = 12
+            static let topOffset: CGFloat = 17
             static let leadingOffset: CGFloat = 8
             static let trailingOffset: CGFloat = 20
             static let defaultStrike: Int = 0
+            static let numberOfLines: Int = 2
         }
         
         enum Description {
             static let topOffset: CGFloat = 8
             static let trailingOffset: CGFloat = 20
-            static let numberOfLines: Int = 0
+            static let numberOfLines: Int = 2
         }
         
         enum Date {
@@ -75,10 +77,17 @@ final class TaskListCell: UITableViewCell {
         fatalError(Constant.Error.message)
     }
     
+    // MARK: - Methods
+    func configure(completed: Bool, title: String, description: String, date: String) {
+        changeState(completed)
+        self.title.text = title
+        self.desc.text = description
+        self.dateLabel.text = date
+    }
+    
     // MARK: - SetUp
     private func setUp() {
         backgroundColor = .clear
-        selectionStyle = .none
         
         setUpSeparator()
         setUpCheckBox()
@@ -104,7 +113,6 @@ final class TaskListCell: UITableViewCell {
         checkBox.tintColor = ColorStyle.yellow.color
         checkBox.setImage(Constant.CheckBox.image, for: .normal)
         checkBox.addTarget(self, action: #selector(checkBoxTapped), for: .touchUpInside)
-        checkBox.isHidden = true
         
         [checkBox, checkBoxBlank].forEach {
             contentView.addSubview($0)
@@ -116,9 +124,9 @@ final class TaskListCell: UITableViewCell {
     }
     
     private func setUpTitle() {
-        title.text = "Заняться спортом"
         title.textColor = ColorStyle.white.color
         title.font = TextStyle.bodyM.font
+        title.numberOfLines = Constant.Title.numberOfLines
         
         contentView.addSubview(title)
         title.pinTop(to: contentView, Constant.Title.topOffset)
@@ -127,7 +135,6 @@ final class TaskListCell: UITableViewCell {
     }
     
     private func setUpDescription() {
-        desc.text = "Сходить в спортзал или сделать тренировку дома. Не забыть про разминку и растяжку!"
         desc.textColor = ColorStyle.white.color
         desc.font = TextStyle.caption.font
         desc.numberOfLines = Constant.Description.numberOfLines
@@ -139,7 +146,6 @@ final class TaskListCell: UITableViewCell {
     }
     
     private func setUpDate() {
-        dateLabel.text = "02/10/24"
         dateLabel.textColor = ColorStyle.lightGray.color
         dateLabel.font = TextStyle.caption.font
         
@@ -153,17 +159,19 @@ final class TaskListCell: UITableViewCell {
     // MARK: - Actions
     @objc
     private func checkBoxTapped() {
-        let isChecked = checkBoxBlank.isHidden
-
-        checkBox.isHidden = isChecked
-        checkBoxBlank.isHidden = !isChecked
+        changeState(checkBoxBlank.isHidden)
+    }
+    
+    private func changeState(_ completed: Bool) {
+        checkBox.isHidden = !completed
+        checkBoxBlank.isHidden = completed
 
         let attributes: [NSAttributedString.Key: Any] = [
-            .strikethroughStyle: !isChecked ? NSUnderlineStyle.single.rawValue : Constant.Title.defaultStrike
+            .strikethroughStyle: completed ? NSUnderlineStyle.single.rawValue : Constant.Title.defaultStrike
         ]
 
         title.attributedText = NSAttributedString(string: title.text ?? "", attributes: attributes)
-        title.textColor = !isChecked ? ColorStyle.lightGray.color : ColorStyle.white.color
-        desc.textColor = !isChecked ? ColorStyle.lightGray.color : ColorStyle.white.color
+        title.textColor = completed ? ColorStyle.lightGray.color : ColorStyle.white.color
+        desc.textColor = completed ? ColorStyle.lightGray.color : ColorStyle.white.color
     }
 }

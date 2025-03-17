@@ -31,7 +31,7 @@ final class TaskListViewController: UIViewController {
     }
     
     // MARK: - Private fields
-    private let interactor: TaskListBusinessLogic
+    private let interactor: TaskListBusinessLogic & TasksStorage
     
     //MARK: - UI Components
     private let label: UILabel = UILabel()
@@ -40,7 +40,7 @@ final class TaskListViewController: UIViewController {
     private let taskTable: UITableView = UITableView()
     
     // MARK: - Lifecycle
-    init(interactor: TaskListBusinessLogic) {
+    init(interactor: TaskListBusinessLogic & TasksStorage) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,6 +53,13 @@ final class TaskListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
+        interactor.loadTasks()
+    }
+    
+    // MARK: - Methods
+    func displayStart(count: Int) {
+        taskTable.reloadData()
+        footer.count = count
     }
     
     // MARK: - SetUp
@@ -99,7 +106,7 @@ final class TaskListViewController: UIViewController {
     }
     
     private func setUpTable() {
-        taskTable.dataSource = self
+        taskTable.dataSource = interactor
         taskTable.delegate = self
         taskTable.backgroundColor = .clear
         taskTable.separatorStyle = .none
@@ -110,7 +117,7 @@ final class TaskListViewController: UIViewController {
         view.addSubview(taskTable)
         taskTable.pinTop(to: search.bottomAnchor, 16)
         taskTable.pinHorizontal(to: view)
-        taskTable.pinBottom(to: footer.topAnchor)
+        taskTable.pinBottom(to: footer.topAnchor, -0.5)
     }
     
     // MARK: Actions
@@ -120,23 +127,10 @@ final class TaskListViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension TaskListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        7
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: TaskListCell.reuseId,
-            for: indexPath
-        ) as? TaskListCell else {
-            return UITableViewCell()
-        }
-        
-        return cell
+// MARK: - UITableViewDelegate
+extension TaskListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        print(3)
     }
 }
-
-// MARK: - UITableViewDelegate
-extension TaskListViewController: UITableViewDelegate { }
