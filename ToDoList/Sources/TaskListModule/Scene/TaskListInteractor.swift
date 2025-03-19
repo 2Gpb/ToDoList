@@ -17,7 +17,10 @@ final class TaskListInteractor: NSObject, TaskListBusinessLogic, TasksStorage {
     var tasks: Tasks = []
 
     // MARK: - Lifecycle
-    init(presenter: TaskListPresentationLogic & TaskListRouterLogic, service: TaskListWorker) {
+    init(
+        presenter: TaskListPresentationLogic & TaskListRouterLogic,
+        service: TaskListWorker
+    ) {
         self.presenter = presenter
         self.service = service
     }
@@ -44,6 +47,10 @@ final class TaskListInteractor: NSObject, TaskListBusinessLogic, TasksStorage {
                 print("Error: \(error)")
             }
         }
+    }
+    
+    func loadAddTask() {
+        presenter.routeToTask()
     }
 }
 

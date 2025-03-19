@@ -15,7 +15,7 @@ final class TaskListViewController: UIViewController {
         }
         
         enum Title {
-            static let text: String = "Задачи"
+            static let text: String = "Tasks"
             static let topOffset: CGFloat = 16
             static let leftOffset: CGFloat = 20
         }
@@ -27,6 +27,21 @@ final class TaskListViewController: UIViewController {
         
         enum Footer {
             static let heightMultiplier: CGFloat = 0.1
+        }
+        
+        enum Table {
+            static let separatorInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            static let topOffset: CGFloat = 20
+            static let bottomOffset: CGFloat = -0.5
+        }
+        
+        enum ContextMenu {
+            static let editTitle: String = "Edit"
+            static let shareTitle: String = "Share"
+            static let deleteTitle: String = "Delete"
+            static let editImage: UIImage? = UIImage(systemName: "square.and.pencil")
+            static let shareImage: UIImage? = UIImage(systemName: "square.and.arrow.up")
+            static let deleteImage: UIImage? = UIImage(systemName: "trash")
         }
     }
     
@@ -54,6 +69,10 @@ final class TaskListViewController: UIViewController {
         super.viewDidLoad()
         setUp()
         interactor.loadTasks()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
     }
     
     // MARK: - Methods
@@ -95,8 +114,8 @@ final class TaskListViewController: UIViewController {
     }
     
     private func setUpFooter() {
-        footer.newTaskButtonAction = {
-            print(2)
+        footer.newTaskButtonAction = { [weak self] in
+            self?.interactor.loadAddTask()
         }
         
         view.addSubview(footer)
@@ -109,15 +128,16 @@ final class TaskListViewController: UIViewController {
         taskTable.dataSource = interactor
         taskTable.delegate = self
         taskTable.backgroundColor = .clear
-        taskTable.separatorStyle = .none
         taskTable.showsVerticalScrollIndicator = false
         taskTable.rowHeight = UITableView.automaticDimension
+        taskTable.separatorInset = Constant.Table.separatorInset
+        taskTable.separatorColor = ColorStyle.lightGray.color
         taskTable.register(TaskListCell.self, forCellReuseIdentifier: TaskListCell.reuseId)
         
         view.addSubview(taskTable)
-        taskTable.pinTop(to: search.bottomAnchor, 16)
+        taskTable.pinTop(to: search.bottomAnchor, Constant.Table.topOffset)
         taskTable.pinHorizontal(to: view)
-        taskTable.pinBottom(to: footer.topAnchor, -0.5)
+        taskTable.pinBottom(to: footer.topAnchor, Constant.Table.bottomOffset)
     }
     
     // MARK: Actions
@@ -131,6 +151,45 @@ final class TaskListViewController: UIViewController {
 extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print(3)
+        interactor.loadAddTask()
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        let menu = UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil
+        ) { _ in
+            
+            let editAction = UIAction(
+                title: Constant.ContextMenu.editTitle,
+                image: Constant.ContextMenu.editImage
+            ) { _ in
+                print(12)
+            }
+            
+            let shareAction = UIAction(
+                title: Constant.ContextMenu.shareTitle,
+                image: Constant.ContextMenu.shareImage
+            ) { _ in
+                print(11)
+            }
+            
+            let deleteAction = UIAction(
+                title: Constant.ContextMenu.deleteTitle,
+                image: Constant.ContextMenu.deleteImage
+            ) { _ in
+                print(13)
+            }
+            
+            deleteAction.attributes = [.destructive]
+            
+            return UIMenu(children: [editAction, shareAction, deleteAction])
+        }
+        
+        return menu
     }
 }

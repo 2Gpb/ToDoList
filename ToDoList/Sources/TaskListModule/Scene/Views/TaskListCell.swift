@@ -14,11 +14,6 @@ final class TaskListCell: UITableViewCell {
             static let message = "init(coder:) has not been implemented"
         }
         
-        enum Separator {
-            static let height: CGFloat = 0.5
-            static let horizontalOffset: CGFloat = 20
-        }
-        
         enum CheckBox {
             static let topOffset: CGFloat = 12
             static let leadingOffset: CGFloat = 20
@@ -59,7 +54,6 @@ final class TaskListCell: UITableViewCell {
     static let reuseId = "TaskListCell"
     
     // MARK: - UI Components
-    private let separator: UIView = UIView()
     private let checkBoxBlank: UIButton = UIButton(type: .system)
     private let checkBox: UIButton = UIButton(type: .system)
     private let title: UILabel = UILabel()
@@ -89,20 +83,10 @@ final class TaskListCell: UITableViewCell {
     private func setUp() {
         backgroundColor = .clear
         
-        setUpSeparator()
         setUpCheckBox()
         setUpTitle()
         setUpDescription()
         setUpDate()
-    }
-    
-    private func setUpSeparator() {
-        separator.backgroundColor = ColorStyle.lightGray.color
-        
-        addSubview(separator)
-        separator.pinBottom(to: self)
-        separator.pinHorizontal(to: self, Constant.Separator.horizontalOffset)
-        separator.setHeight(Constant.Separator.height)
     }
     
     private func setUpCheckBox() {
@@ -159,7 +143,7 @@ final class TaskListCell: UITableViewCell {
     // MARK: - Actions
     @objc
     private func checkBoxTapped() {
-        changeState(checkBoxBlank.isHidden)
+        changeState(!checkBoxBlank.isHidden)
     }
     
     private func changeState(_ completed: Bool) {

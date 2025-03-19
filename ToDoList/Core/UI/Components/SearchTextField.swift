@@ -16,7 +16,7 @@ final class SearchTextField: UITextField {
         
         enum TextField {
             static let radius: CGFloat = 12
-            static let placeholder: String = "Поиск"
+            static let placeholder: String = "Search"
             static let height: CGFloat = 36
         }
         

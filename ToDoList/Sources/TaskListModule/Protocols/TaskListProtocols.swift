@@ -9,15 +9,15 @@ import UIKit
 
 protocol TaskListBusinessLogic: UITableViewDataSource {
     func loadTasks()
+    func loadAddTask()
 }
 
 protocol TaskListPresentationLogic {
     func presentTasks(count: Int)
-    
 }
 
 protocol TaskListRouterLogic {
-    
+    func routeToTask()
 }
 
 protocol TaskListWorker {
