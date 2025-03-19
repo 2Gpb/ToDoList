@@ -71,10 +71,6 @@ final class TaskListViewController: UIViewController {
         interactor.loadTasks()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
-    }
-    
     // MARK: - Methods
     func displayStart(count: Int) {
         taskTable.reloadData()
@@ -84,6 +80,7 @@ final class TaskListViewController: UIViewController {
     // MARK: - SetUp
     private func setUp() {
         view.backgroundColor = ColorStyle.black.color
+        navigationController?.navigationBar.isHidden = true
         
         setUpTitle()
         setUpSearch()

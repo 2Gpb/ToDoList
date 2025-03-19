@@ -12,5 +12,7 @@ final class AddTaskPresenter: AddTaskPresentationLogic {
 
 // MARK: - RouterLogic
 extension AddTaskPresenter: AddTaskRouterLogic {
-    
+    func popViewController() {
+        view?.navigationController?.popViewController(animated: true)
+    }
 }

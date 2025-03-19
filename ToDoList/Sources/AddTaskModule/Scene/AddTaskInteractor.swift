@@ -13,4 +13,9 @@ final class AddTaskInteractor: AddTaskBusinessLogic {
     init(presenter: AddTaskPresentationLogic & AddTaskRouterLogic) {
         self.presenter = presenter
     }
+    
+    // MARK: - Methods
+    func goBack() {
+        presenter.popViewController()
+    }
 }

@@ -19,7 +19,7 @@ final class Footer: UIView {
         }
         
         enum Title {
-            static let defaultText = "0 Задач"
+            static let defaultText = "0 Tasks"
             static let topOffset: CGFloat = 20
         }
         
@@ -45,7 +45,7 @@ final class Footer: UIView {
     // MARK: - Properties
     var count: Int = 0 {
         didSet {
-            title.text = "\(count) Задач"
+            title.text = "\(count) Tasks"
         }
     }
     

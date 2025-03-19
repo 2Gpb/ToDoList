@@ -6,7 +6,7 @@
 //
 
 protocol AddTaskBusinessLogic {
-    
+    func goBack()
 }
 
 protocol AddTaskPresentationLogic {
@@ -14,5 +14,5 @@ protocol AddTaskPresentationLogic {
 }
 
 protocol AddTaskRouterLogic {
-    
+    func popViewController()
 }
